@@ -33,8 +33,23 @@ async function run() {
 
     app.post('/allToys', async(req,res)=>{
       const newToy=req.body
-      console.log(newToy);
+      // console.log(newToy);
       const result = await shopCollection.insertOne(newToy)
+      res.send(result)
+    })
+
+    app.delete('/allToys/:id', async(req,res)=>{
+      const id =req.params.id
+      const filter={_id: new ObjectId(id)}
+      const result= await shopCollection.deleteOne(filter)
+      res.send(result)
+    })
+
+    app.get('/getToysByEmail/:email',async(req,res)=>{
+      // console.log(req.params.email);
+      const result=await shopCollection.find({
+        sellerEmail:req.params.email
+      }).toArray()
       res.send(result)
     })
 
