@@ -31,6 +31,13 @@ async function run() {
     const shopCollection=client.db("shopDB").collection("toys")
 
 
+    app.post('/allToys', async(req,res)=>{
+      const newToy=req.body
+      console.log(newToy);
+      const result = await shopCollection.insertOne(newToy)
+      res.send(result)
+    })
+
     app.get('/allToys', async(req,res)=>{
       const result = await shopCollection.find().limit(20).toArray()
       res.send(result)
