@@ -30,6 +30,23 @@ async function run() {
 
     const shopCollection=client.db("shopDB").collection("toys")
 
+
+    app.get('/allToys', async(req,res)=>{
+      const result = await shopCollection.find().toArray()
+      res.send(result)
+    })
+
+    app.get('/getToysBySearch/:text',async(req,res)=>{
+      console.log(req.params.text);
+      const text=req.params.text
+      const result=await shopCollection.find({
+        $or:[
+          {name: {$regex: text, $options:'i'}}
+        ]
+      }).toArray()
+      res.send(result)
+    })
+
     app.get('/getToysByCategory/:category', async(req,res)=>{
         // console.log(req.params.category);
         const result= await shopCollection.find({subcategory: req.params.category}).toArray()
