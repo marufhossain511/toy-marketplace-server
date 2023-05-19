@@ -38,6 +38,13 @@ async function run() {
       res.send(result)
     })
 
+    // app.get('/sortAllToys/:price',async(req,res)=>{
+    //   const price=parseInt(req.params.price)
+    //   console.log(price);
+    //   const result=await shopCollection.find({price: {$lt: price}}).sort({price:-1}).toArray()
+    //   res.send(result)
+    // })
+
     app.patch('/allToys/:id',async(req,res)=>{
       const id=req.params.id
       const filter={_id: new ObjectId(id)}
@@ -63,12 +70,13 @@ async function run() {
     })
 
     app.get('/getToysByEmail/:email',async(req,res)=>{
-      // console.log(req.params.email);
       const result=await shopCollection.find({
         sellerEmail:req.params.email
-      }).toArray()
+      }).sort({price:-1}).toArray()
       res.send(result)
     })
+
+
 
     app.get('/allToys', async(req,res)=>{
       const result = await shopCollection.find().limit(20).toArray()
