@@ -111,7 +111,7 @@ async function run() {
 
     app.get('/getToysByCategory/:category', async(req,res)=>{
         // console.log(req.params.category);
-        const result= await shopCollection.find({subcategory: req.params.category}).toArray()
+        const result= await shopCollection.find({subcategory: req.params.category}).limit(3).toArray()
         res.send(result)
     })
 
